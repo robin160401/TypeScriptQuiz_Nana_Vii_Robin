@@ -65,13 +65,8 @@ let hardQuestions: IQuestion[] = [];
 
 function showQuestions(questions: IQuestion[]) {
   questionsContainer.style.display = "block";
+  answersContainer.style.display = "block";
   startContainer.style.display = "none";
-
-  //HI Farid hier funktioniert noch
-  console.log(questions);
-
-  // HI Farid hier wird undefined ausgegeben
-  console.log(questions[1].question);
 
   questions.forEach((question: IQuestion) => {
     console.log(question);
