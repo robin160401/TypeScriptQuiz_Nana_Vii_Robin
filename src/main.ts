@@ -33,6 +33,8 @@ const userPoints: number[] = [];
 const userHighScore: number = 0;
 let userScore = 0;
 
+// - language / difficulty buttons
+
 deButton.addEventListener("click", (event: Event) => {
   event.preventDefault();
   language.style.display = "none";
@@ -64,6 +66,8 @@ hardButton.addEventListener("click", async (event: Event) => {
 
 let hardQuestions: IQuestion[] = [];
 let easyQuestions: IQuestion[] = [];
+
+// - fetch function
 
 function showQuestions(questions: IQuestion[]) {
   questionsContainer.style.display = "block";
@@ -146,3 +150,5 @@ async function fetchHardData(): Promise<IQuestion[]> {
   }
   return hardQuestions;
 }
+
+// - eventlistener p-tags
