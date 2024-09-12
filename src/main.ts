@@ -73,7 +73,7 @@ function showQuestions(questions: IQuestion[]) {
     let chosenIndex = 5;
     const correctIndex = question.correct;
     questionElement.textContent = question.question;
-
+    console.log(question.question[2]);
     answer1.textContent = question.answers[0];
     answer2.textContent = question.answers[1];
     answer3.textContent = question.answers[2];
