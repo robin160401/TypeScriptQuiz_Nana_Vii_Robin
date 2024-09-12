@@ -1,5 +1,5 @@
 export interface IQuestion {
-    question: string;
-    answer: string[];
-    correct: number;
+  question: string;
+  answers: string[];
+  correct: number;
 }
