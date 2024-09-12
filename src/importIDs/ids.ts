@@ -16,3 +16,4 @@ export const answer4 = document.getElementById("3") as HTMLParagraphElement;
 export const sendButton = document.getElementById("send") as HTMLButtonElement;
 export const resultsContainer = document.getElementById("results") as HTMLDivElement;
 export const highscore = document.getElementById("highscore") as HTMLParagraphElement;
+export const questionElement = document.getElementById("question") as HTMLHeadElement;
