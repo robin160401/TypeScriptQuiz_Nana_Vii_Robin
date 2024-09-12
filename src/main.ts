@@ -27,6 +27,7 @@ questionsContainer.style.display = "none";
 answersContainer.style.display = "none";
 resultsContainer.style.display = "none";
 
+let i = 0;
 let de: boolean = false;
 let userName = "";
 const userPoints: number[] = [];
@@ -69,17 +70,63 @@ let easyQuestions: IQuestion[] = [];
 
 // - fetch function
 
-function showQuestions(questions: IQuestion[]) {
+function showQuestions(questions: IQuestion[]){
   questionsContainer.style.display = "block";
   answersContainer.style.display = "block";
   startContainer.style.display = "none";
+  changeQuestion(questions[0], questions);
+}
 
-  questions.forEach((question: IQuestion) => {
-    console.log(question);
-    let chosenIndex = 5;
+async function fetchEasyData(): Promise<IQuestion[]> {
+  if (de) {
+    try {
+      const response = await fetch(`${baseURL}leicht.json`);
+      let data = await response.json();
+      data.forEach((question: IQuestion) => {
+        easyQuestions.push(question);
+      });
+    } catch (error) {}
+  } else {
+    try {
+      const response = await fetch(`${baseURL}easy.json`);
+      let data = await response.json();
+      data.forEach((question: IQuestion) => {
+        easyQuestions.push(question);
+      });
+    } catch (error) {}
+  }
+  return easyQuestions;
+}
+
+async function fetchHardData(): Promise<IQuestion[]> {
+  if (de) {
+    try {
+      const response = await fetch(`${baseURL}schwer.json`);
+      let data = await response.json();
+      data.forEach((question: IQuestion) => {
+        hardQuestions.push(question);
+      });
+    } catch (error) {}
+  } else {
+    try {
+      const response = await fetch(`${baseURL}hard.json`);
+      let data = await response.json();
+      data.forEach((question: IQuestion) => {
+        hardQuestions.push(question);
+      });
+    } catch (error) {}
+  }
+  return hardQuestions;
+}
+
+// - eventlistener p-tags
+
+function changeQuestion(question: IQuestion, questions: IQuestion[]){
+  removeScore();
+  console.log(question);
+    let chosenIndex: number;
     const correctIndex = question.correct;
     questionElement.textContent = question.question;
-    console.log(question.question[2]);
     answer1.textContent = question.answers[0];
     answer2.textContent = question.answers[1];
     answer3.textContent = question.answers[2];
@@ -96,59 +143,24 @@ function showQuestions(questions: IQuestion[]) {
     answer4.addEventListener("click", () => {
       chosenIndex = 3;
     });
-    console.log(chosenIndex);
     sendButton.addEventListener("click", () => {
+      console.log(chosenIndex);
       if (chosenIndex === correctIndex) {
         userScore++;
       }
-    });
-  });
+      i++;
+      changeQuestion(questions[i], questions);
+      const score = document.createElement("p");
+      score.setAttribute("class", "delete")
+      resultsContainer.style.display = "block";
+      score.textContent = userScore.toString();
+      resultsContainer.appendChild(score);
+    })
 }
 
-async function fetchEasyData(): Promise<IQuestion[]> {
-  if (de) {
-    try {
-      const response = await fetch(`${baseURL}leicht.json`);
-      let data = await response.json();
-      data.forEach((question: IQuestion) => {
-        easyQuestions.push(question);
-        console.log(easyQuestions);
-      });
-    } catch (error) {}
-  } else {
-    try {
-      const response = await fetch(`${baseURL}easy.json`);
-      let data = await response.json();
-      data.forEach((question: IQuestion) => {
-        easyQuestions.push(question);
-        console.log(easyQuestions);
-      });
-    } catch (error) {}
-  }
-  return easyQuestions;
+function removeScore(){
+  const remove = document.querySelectorAll(".delete");
+  remove.forEach((element) => {
+    element.remove();
+  })
 }
-
-async function fetchHardData(): Promise<IQuestion[]> {
-  if (de) {
-    try {
-      const response = await fetch(`${baseURL}schwer.json`);
-      let data = await response.json();
-      data.forEach((question: IQuestion) => {
-        hardQuestions.push(question);
-        console.log(hardQuestions);
-      });
-    } catch (error) {}
-  } else {
-    try {
-      const response = await fetch(`${baseURL}hard.json`);
-      let data = await response.json();
-      data.forEach((question: IQuestion) => {
-        hardQuestions.push(question);
-        console.log(hardQuestions);
-      });
-    } catch (error) {}
-  }
-  return hardQuestions;
-}
-
-// - eventlistener p-tags
