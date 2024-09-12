@@ -32,48 +32,57 @@ enButton.addEventListener("click", (event: Event) => {
   startContainer.style.display = "block";
 });
 
-easyButton.addEventListener("click", () => {
+easyButton.addEventListener("click", (event: Event) => {
+  event.preventDefault();
   const easyQuestions: IQuestion[] = fetchEasyData();
-  console.log(easyQuestions)
-  console.log(userName);
+  showQuestions(easyQuestions);
 });
-hardButton.addEventListener("click", () => {
+hardButton.addEventListener("click", (event: Event) => {
+  event.preventDefault();
   const hardQuestions: IQuestion[] = fetchHardData();
-  console.log(hardQuestions);
+  showQuestions(hardQuestions);
 });
 
 function showQuestions(questions: IQuestion[]){
+  
   questionsContainer.style.display = "block";
   startContainer.style.display = "none";
-  questions.forEach((question: IQuestion) => {
-    let buttonPressed: boolean = false;
-    let chosenIndex = 5;
-    const correctIndex = question.correct;
-    questionElement.textContent = question.question;
-    answer1.textContent = question.answer[0];
-    answer2.textContent = question.answer[1];
-    answer3.textContent = question.answer[2];
-    answer4.textContent = question.answer[3];
-    answer1.addEventListener("click", () => {
-      chosenIndex = 0;
-    })
-    answer2.addEventListener("click", () => {
-      chosenIndex = 1;
-    })
-    answer3.addEventListener("click", () => {
-      chosenIndex = 2;
-    })
-    answer4.addEventListener("click", () => {
-      chosenIndex = 3;
-    })
-    sendButton.addEventListener("click", () => {
-      if (chosenIndex === correctIndex){
-        userScore++;
-        buttonPressed = true;
-      }
-    })
+
+  //HI Farid hier funktioniert noch
+  console.log(questions);
+
+  // HI Farid hier wird undefined ausgegeben
+  console.log(questions[1].question)
+  
+  // questions.forEach((question: IQuestion) => {
+  //   console.log(question)
+  //   let chosenIndex = 5;
+  //   const correctIndex = question.correct;
+  //   questionElement.textContent = question.question;
+  //   answer1.textContent = question.answer[0];
+  //   answer2.textContent = question.answer[1];
+  //   answer3.textContent = question.answer[2];
+  //   answer4.textContent = question.answer[3];
+  //   answer1.addEventListener("click", () => {
+  //     chosenIndex = 0;
+  //   })
+  //   answer2.addEventListener("click", () => {
+  //     chosenIndex = 1;
+  //   })
+  //   answer3.addEventListener("click", () => {
+  //     chosenIndex = 2;
+  //   })
+  //   answer4.addEventListener("click", () => {
+  //     chosenIndex = 3;
+  //   })
+  //   console.log(chosenIndex);
+  //   sendButton.addEventListener("click", () => {
+  //     if (chosenIndex === correctIndex){
+  //       userScore++;
+  //     }
+  //   })
     
-  })
+  // })
 }
 
 function fetchEasyData(): IQuestion[]{
