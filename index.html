@@ -30,22 +30,19 @@
             name="userName"
             id="userName"
             placeholder="Enter your name"
+            required
           />
           <h2 id="difficulty">Choose difficulty</h2>
           <button class="btnstyle" id="easy">Easy</button>
           <button class="btnstyle" id="hard">Hard</button>
         </div>
         <div id="questions">
-          <h3 id="question">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis
-            nesciunt placeat doloremque perspiciatis non modi obcaecati vitae
-            dignissimos sint culpa.
-          </h3>
+          <h3 id="question"></h3>
           <div id="answers">
-            <p id="0">Lorem ipsum dolor sit amet.</p>
-            <p id="1">Lorem ipsum dolor sit amet.</p>
-            <p id="2">Lorem ipsum dolor sit amet.</p>
-            <p id="3">Lorem ipsum dolor sit amet.</p>
+            <p id="0"></p>
+            <p id="1"></p>
+            <p id="2"></p>
+            <p id="3"></p>
           </div>
           <button class="btnstyle" id="send">Send answer</button>
         </div>
@@ -53,7 +50,11 @@
           <h4>Your result:</h4>
           <p id="highscore">Your highscore:</p>
         </div>
+        <p id="scoreTag"></p>
       </div>
+      <button id="restart" class="btnstyle" onClick="window.location.reload();">
+        Restart Game
+      </button>
       <div class="imgStyle">
         <img
           src="./src/IMG/pexels-thisisengineering-3861976.jpg"
