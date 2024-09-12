@@ -1,13 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <script type="module" src="/src/main.ts" defer></script>
+    <title>TypeQuizzMaster</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <h1>TypeQuizzMaster</h1>
+    <div id="content">
+      <div id="language">
+        <h2>Select your language</h2>
+        <button id="german">Deutsch</button>
+        <button id="english">English</button>
+      </div>
+      <div id="start">
+        <input
+          type="text"
+          name="userName"
+          id="userName"
+          placeholder="Enter your name"
+        />
+        <h2 id="difficulty">Choose difficulty</h2>
+        <button id="easy">Easy</button>
+        <button id="hard">Hard</button>
+      </div>
+      <div id="questions">
+        <h3>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis nesciunt
+          placeat doloremque perspiciatis non modi obcaecati vitae dignissimos
+          sint culpa.
+        </h3>
+        <div id="answers">
+          <p id="0">Lorem ipsum dolor sit amet.</p>
+          <p id="1">Lorem ipsum dolor sit amet.</p>
+          <p id="2">Lorem ipsum dolor sit amet.</p>
+          <p id="3">Lorem ipsum dolor sit amet.</p>
+        </div>
+        <button id="send">Send answer</button>
+      </div>
+      <div id="results">
+        <h4>Your result:</h4>
+        <p id="highscore">Your highscore:</p>
+      </div>
+    </div>
   </body>
 </html>
