@@ -50,11 +50,12 @@ enButton.addEventListener("click", (event: Event) => {
   startContainer.style.display = "block";
 });
 
-easyButton.addEventListener("click", (event: Event) => {
+easyButton.addEventListener("click", async (event: Event) => {
   event.preventDefault();
-  const easyQuestions: IQuestion[] = fetchEasyData();
+  easyQuestions = await fetchEasyData();
   showQuestions(easyQuestions);
 });
+
 hardButton.addEventListener("click", async (event: Event) => {
   event.preventDefault();
   hardQuestions = await fetchHardData();
@@ -62,6 +63,7 @@ hardButton.addEventListener("click", async (event: Event) => {
 });
 
 let hardQuestions: IQuestion[] = [];
+let easyQuestions: IQuestion[] = [];
 
 function showQuestions(questions: IQuestion[]) {
   questionsContainer.style.display = "block";
@@ -99,35 +101,25 @@ function showQuestions(questions: IQuestion[]) {
   });
 }
 
-function fetchEasyData(): IQuestion[] {
-  userName = inputUserName.value;
-  const easyQuestions: IQuestion[] = [];
+async function fetchEasyData(): Promise<IQuestion[]> {
   if (de) {
-    fetch(`${baseURL}leicht.json`)
-      .then((response: Response) => {
-        if (!response.ok) {
-          throw new Error("No response");
-        }
-        return response.json();
-      })
-      .then((data: any) => {
-        data.forEach((data: IQuestion) => {
-          easyQuestions.push(data);
-        });
+    try {
+      const response = await fetch(`${baseURL}leicht.json`);
+      let data = await response.json();
+      data.forEach((question: IQuestion) => {
+        easyQuestions.push(question);
+        console.log(easyQuestions);
       });
+    } catch (error) {}
   } else {
-    fetch(`${baseURL}easy.json`)
-      .then((response: Response) => {
-        if (!response.ok) {
-          throw new Error("No response");
-        }
-        return response.json();
-      })
-      .then((data: any) => {
-        data.forEach((data: IQuestion) => {
-          easyQuestions.push(data);
-        });
+    try {
+      const response = await fetch(`${baseURL}easy.json`);
+      let data = await response.json();
+      data.forEach((question: IQuestion) => {
+        easyQuestions.push(question);
+        console.log(easyQuestions);
       });
+    } catch (error) {}
   }
   return easyQuestions;
 }
@@ -143,18 +135,14 @@ async function fetchHardData(): Promise<IQuestion[]> {
       });
     } catch (error) {}
   } else {
-    fetch(`${baseURL}hard.json`)
-      .then((response: Response) => {
-        if (!response.ok) {
-          throw new Error("No response");
-        }
-        return response.json();
-      })
-      .then((data: any) => {
-        data.forEach((data: IQuestion) => {
-          hardQuestions.push(data);
-        });
+    try {
+      const response = await fetch(`${baseURL}hard.json`);
+      let data = await response.json();
+      data.forEach((question: IQuestion) => {
+        hardQuestions.push(question);
+        console.log(hardQuestions);
       });
+    } catch (error) {}
   }
   return hardQuestions;
 }
