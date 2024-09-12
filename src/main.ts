@@ -15,6 +15,7 @@ import {
   language,
   questionElement,
   questionsContainer,
+  restartBtn,
   resultsContainer,
   sendButton,
   startContainer,
@@ -26,13 +27,15 @@ startContainer.style.display = "none";
 questionsContainer.style.display = "none";
 answersContainer.style.display = "none";
 resultsContainer.style.display = "none";
+restartBtn.style.display = "none";
 
 let i = 0;
 let de: boolean = false;
 let userName = "";
-const userPoints: number[] = [];
-const userHighScore: number = 0;
 let userScore = 0;
+
+// ! neue variable zum anzeigen für error o. falsch/richtig
+const scoreTag = document.getElementById("scoreTag") as HTMLParagraphElement;
 
 // - language / difficulty buttons
 
@@ -53,114 +56,120 @@ enButton.addEventListener("click", (event: Event) => {
   startContainer.style.display = "block";
 });
 
+// - Fetch questions
+
+let hardQuestions: IQuestion[] = [];
+let easyQuestions: IQuestion[] = [];
+
 easyButton.addEventListener("click", async (event: Event) => {
   event.preventDefault();
-  easyQuestions = await fetchEasyData();
+  easyQuestions = await fetchQuestions("easy");
   showQuestions(easyQuestions);
 });
 
 hardButton.addEventListener("click", async (event: Event) => {
   event.preventDefault();
-  hardQuestions = await fetchHardData();
+  hardQuestions = await fetchQuestions("hard");
   showQuestions(hardQuestions);
 });
 
-let hardQuestions: IQuestion[] = [];
-let easyQuestions: IQuestion[] = [];
+// ! ich hab mich doof gesucht um die fetchFNs zu verkürzen = ternary operator!!
+// - sorry Robin, aber ich find den Code so schöner 😂
 
-// - fetch function
+async function fetchQuestions(difficulty: string): Promise<IQuestion[]> {
+  const url = de // ? de aus zeile 45
+    ? // ? wenn de = true dann -> leicht oder schwer
+      `${baseURL}${difficulty === "easy" ? "leicht.json" : "schwer.json"}`
+    : // ? wenn de = false -> easy & hard aus dem easyButton & hardButton ⬆️
+      `${baseURL}${difficulty}.json`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Network response was not ok");
+    return await response.json();
+  } catch (error) {
+    console.error("Fetch error:", error);
+    scoreTag.textContent = `Fetch error:", ${error}`;
+    return [];
+  }
+}
 
-function showQuestions(questions: IQuestion[]){
+// - Show questions
+
+// ? showQuestions() ist an eine logischere Stelle gerutscht (nach fetch)
+
+function showQuestions(questions: IQuestion[]) {
+  if (questions.length === 0) {
+    scoreTag.textContent = "Keine Fragen verfügbar.";
+    return;
+  }
   questionsContainer.style.display = "block";
   answersContainer.style.display = "block";
   startContainer.style.display = "none";
-  changeQuestion(questions[0], questions);
+  changeQuestion(questions[i], questions);
 }
 
-async function fetchEasyData(): Promise<IQuestion[]> {
-  if (de) {
-    try {
-      const response = await fetch(`${baseURL}leicht.json`);
-      let data = await response.json();
-      data.forEach((question: IQuestion) => {
-        easyQuestions.push(question);
-      });
-    } catch (error) {}
-  } else {
-    try {
-      const response = await fetch(`${baseURL}easy.json`);
-      let data = await response.json();
-      data.forEach((question: IQuestion) => {
-        easyQuestions.push(question);
-      });
-    } catch (error) {}
-  }
-  return easyQuestions;
-}
+// - Change questions
 
-async function fetchHardData(): Promise<IQuestion[]> {
-  if (de) {
-    try {
-      const response = await fetch(`${baseURL}schwer.json`);
-      let data = await response.json();
-      data.forEach((question: IQuestion) => {
-        hardQuestions.push(question);
-      });
-    } catch (error) {}
-  } else {
-    try {
-      const response = await fetch(`${baseURL}hard.json`);
-      let data = await response.json();
-      data.forEach((question: IQuestion) => {
-        hardQuestions.push(question);
-      });
-    } catch (error) {}
-  }
-  return hardQuestions;
-}
+function changeQuestion(question: IQuestion, questions: IQuestion[]) {
+  // removeScore();
+  questionElement.textContent = question.question;
+  answer1.textContent = question.answers[0];
+  answer2.textContent = question.answers[1];
+  answer3.textContent = question.answers[2];
+  answer4.textContent = question.answers[3];
 
-// - eventlistener p-tags
+  const correctIndex = question.correct;
+  let chosenIndex: number | undefined = undefined; //? wenn der uns undefined ausspuckt, kann er auch undefined sein  - außerdem hat er so nicht mehr nach Frage 5 abgebrochen
 
-function changeQuestion(question: IQuestion, questions: IQuestion[]){
-  removeScore();
-  console.log(question);
-    let chosenIndex: number;
-    const correctIndex = question.correct;
-    questionElement.textContent = question.question;
-    answer1.textContent = question.answers[0];
-    answer2.textContent = question.answers[1];
-    answer3.textContent = question.answers[2];
-    answer4.textContent = question.answers[3];
-    answer1.addEventListener("click", () => {
-      chosenIndex = 0;
-    });
-    answer2.addEventListener("click", () => {
-      chosenIndex = 1;
-    });
-    answer3.addEventListener("click", () => {
-      chosenIndex = 2;
-    });
-    answer4.addEventListener("click", () => {
-      chosenIndex = 3;
-    });
-    sendButton.addEventListener("click", () => {
-      console.log(chosenIndex);
+  // ? beim googlen gefunden, angepasst, funktioniert! warum, keine ahnung
+  [answer1, answer2, answer3, answer4].forEach((answer, index) => {
+    answer.onclick = () => {
+      chosenIndex = index;
+    };
+  });
+
+  sendButton.onclick = () => {
+    if (chosenIndex !== undefined) {
       if (chosenIndex === correctIndex) {
         userScore++;
+        console.log(userScore);
+        scoreTag.textContent = "Correct!"; //? hier könnte man wieder ein if else für deutsch und englisch machen, hatte ich aber keine Lust mehr zu!
+      } else {
+        scoreTag.textContent = "Wrong!";
       }
       i++;
-      changeQuestion(questions[i], questions);
-      const score = document.createElement("p");
-      score.setAttribute("class", "delete")
-      resultsContainer.style.display = "block";
-      score.textContent = userScore.toString();
-      resultsContainer.appendChild(score);
-    })
+      if (i < questions.length) {
+        changeQuestion(questions[i], questions);
+      } else {
+        showResults();
+      }
+    }
+  };
 }
 
-function removeScore(){
-  const remove = document.querySelectorAll(".delete");
-  remove.forEach((element) => {
-    element.remove();
-  })
+// - Show results
+
+function showResults() {
+  questionElement.style.display = "none";
+  answersContainer.style.display = "none";
+  sendButton.style.display = "none";
+  resultsContainer.style.display = "block";
+  restartBtn.style.display = "block";
+  resultsContainer.innerHTML = `<h4>Your result: ${userScore}</h4>`;
+  scoreTag.textContent = "";
+  saveHighscore(userScore);
 }
+
+// - Save highscore
+
+function saveHighscore(score: number) {
+  const highScores = JSON.parse(localStorage.getItem("highscores") || "[]");
+  highScores.push({ name: userName, score: score });
+  localStorage.setItem("highscores", JSON.stringify(highScores));
+}
+
+// - Remove score
+// -brauchen wir gar nicht mehr
+// function removeScore() {
+//   resultsContainer.innerHTML = "";
+// }
