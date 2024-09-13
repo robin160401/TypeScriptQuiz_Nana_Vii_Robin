@@ -24,7 +24,7 @@ const scoreTag = document.getElementById("scoreTag") as HTMLParagraphElement;
 type User = {
   userName: string;
   userScore: number;
-}
+};
 
 // Base URL zum späteren fetchen
 
@@ -122,6 +122,8 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
 
   const correctIndex = question.correct;
   let chosenIndex: number | undefined = undefined;
+
+
   let answers = [answer1, answer2, answer3, answer4];
   answers.forEach((answer, index) => {
   answer.style.backgroundColor = "#271d66";
@@ -134,9 +136,9 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   };
 });
 
+
   // Ausgeählte Frage absenden und abgleichen falls richtig gibt es einen Punkt
   // Counter hochzählen um zur nächsten Frage zu springen so lange bis es keine mehr gibt
-
 
   sendButton.onclick = () => {
     if (chosenIndex !== undefined) {
@@ -166,9 +168,9 @@ function showResults() {
   resultsContainer.style.display = "block";
   restartBtn.style.display = "block";
   resultsContainer.innerHTML = `<h4>Your result: ${userScore}</h4>`;
-  const actualUser: User = {userName, userScore}
+  const actualUser: User = { userName, userScore };
   const highScoreList = saveScoresReturnArray(actualUser);
-  for (let i= 0; i < 10; i++){
+  for (let i = 0; i < 10; i++) {
     const newPtag = document.createElement("p");
     newPtag.textContent = `${i + 1}. ${highScoreList[i].userName} ${highScoreList[i].userScore} Points`;
     resultsContainer.appendChild(newPtag);
@@ -180,6 +182,8 @@ function saveScoresReturnArray(user: User): User[] {
   const scores: User[] = JSON.parse(localStorage.getItem("highscores") || "[]");
   scores.push(user);
   localStorage.setItem("highscores", JSON.stringify(scores));
-  const sortedScores = scores.sort((a: User, b: User) => b.userScore - a.userScore);
+  const sortedScores = scores.sort(
+    (a: User, b: User) => b.userScore - a.userScore
+  );
   return sortedScores;
 }
