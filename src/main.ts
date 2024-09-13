@@ -126,6 +126,7 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   let chosenIndex: number | undefined = undefined;
 
   [answer1, answer2, answer3, answer4].forEach((answer, index) => {
+    answer.style.backgroundColor = "#271d66"
     answer.onclick = () => {
       chosenIndex = index;
       answer.style.backgroundColor = "#66eea8";
