@@ -90,8 +90,6 @@ async function fetchQuestions(difficulty: string): Promise<IQuestion[]> {
   }
 }
 
-// - Show questions
-
 function showQuestions(questions: IQuestion[]) {
   if (questions.length === 0) {
     scoreTag.textContent = "Keine Fragen verfügbar.";
@@ -102,8 +100,6 @@ function showQuestions(questions: IQuestion[]) {
   startContainer.style.display = "none";
   changeQuestion(questions[i], questions);
 }
-
-// - Change questions
 
 function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   questionElement.textContent = question.question;
@@ -140,8 +136,6 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   };
 }
 
-// - Show results
-
 function showResults() {
   questionElement.style.display = "none";
   answersContainer.style.display = "none";
@@ -151,31 +145,24 @@ function showResults() {
   resultsContainer.innerHTML = `<h4>Your result: ${userScore}</h4>`;
   scoreTag.textContent = "";
   const actualUser: User = {userName, userScore}
-  const highScore = saveScoresReturnHighScore(actualUser);
-  const newPtag = document.createElement("p");
-  newPtag.textContent = `your highscore is ${highScore}`;
-  resultsContainer.appendChild(newPtag);
-  console.log(`your highscore is ${highScore}`);
-  // highscore.textContent += " " + highScore.toString();
+  const highScoreList = saveScoresReturnArray(actualUser);
+  for (let i= 0; i < 10; i++){
+    const newPtag = document.createElement("p");
+    newPtag.textContent = `${highScoreList[i].userName} had ${highScoreList[i].userScore} Points`;
+    resultsContainer.appendChild(newPtag);
+  }
 }
-
-// - Save highscore
 
 type User = {
   userName: string;
   userScore: number;
 }
 
-function saveScoresReturnHighScore(user: User): Number {
+function saveScoresReturnArray(user: User): User[] {
   const scores: User[] = JSON.parse(localStorage.getItem("highscores") || "[]");
   scores.push(user);
   localStorage.setItem("highscores", JSON.stringify(scores));
-  let highestScore = 0;
-  scores.forEach((user: User) => {
-    if (user.userScore > highestScore) {
-      highestScore = user.userScore;
-    }
-  });
-  return highestScore;
+  const sortedScores = scores.sort((a: User, b: User) => b.userScore - a.userScore);
+  return sortedScores;
 }
 
