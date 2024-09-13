@@ -37,8 +37,6 @@ let userScore = 0;
 
 const scoreTag = document.getElementById("scoreTag") as HTMLParagraphElement;
 
-// - language / difficulty buttons
-
 deButton.addEventListener("click", (event: Event) => {
   event.preventDefault();
   language.style.display = "none";
