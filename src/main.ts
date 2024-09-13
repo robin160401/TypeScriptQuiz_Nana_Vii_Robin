@@ -20,7 +20,7 @@ import {
   sendButton,
   startContainer,
 } from "./importIDs/ids";
-const scoreTag = document.getElementById("scoreTag");
+const scoreTag = document.getElementById("scoreTag") as HTMLParagraphElement;
 type User = {
   userName: string;
   userScore: number;
