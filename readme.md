@@ -4,7 +4,7 @@ This project is our final practical exercise in the Typescript module.
 It shows how much we have deepened our knowledge, especially in dealing with fetch for API calls and the presentation of data in a web application.  
 The goal is to create an interactive quiz on Typescript that retrieves questions from different categories and difficulty levels and gives immediate feedback to the user.
 
-## Technologies
+## Technologies:
 
 **Markup:**  
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)  
