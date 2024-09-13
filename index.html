@@ -13,6 +13,7 @@
     <title>TypeQuizzMaster</title>
   </head>
   <body>
+    <div id="background"></div>
     <div id="displayFlex">
       <div class="contentStyle" id="content">
         <h1>TypeQuizzMaster</h1>
@@ -36,7 +37,7 @@
         </div>
         <div id="questions">
           <h3 id="question"></h3>
-          <div id="answers">
+          <div id="answers" class="answers">
             <p id="0"></p>
             <p id="1"></p>
             <p id="2"></p>
@@ -49,15 +50,13 @@
           <p id="highscore">Your highscore:</p>
         </div>
         <p id="scoreTag"></p>
-      </div>
-      <button id="restart" class="btnstyle" onClick="window.location.reload();">
-        Restart Game
-      </button>
-      <div class="imgStyle">
-        <img
-          src="./src/IMG/pexels-thisisengineering-3861976.jpg"
-          alt="TypeQuizzMaster Image"
-        />
+        <button
+          id="restart"
+          class="btnstyle"
+          onClick="window.location.reload();"
+        >
+          Restart Game
+        </button>
       </div>
     </div>
   </body>
