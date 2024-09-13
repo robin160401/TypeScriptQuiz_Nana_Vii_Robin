@@ -11,7 +11,6 @@ import {
   easyButton,
   enButton,
   hardButton,
-  highscore,
   inputUserName,
   language,
   questionElement,
@@ -22,7 +21,16 @@ import {
   startContainer,
 } from "./importIDs/ids";
 
+type User = {
+  userName: string;
+  userScore: number;
+}
+
+// Base URL zum späteren fetchen
+
 const baseURL = "https://vz-wd-24-01.github.io/typescript-quiz/questions/";
+
+// Alle HTML Elemente ausblenden
 
 startContainer.style.display = "none";
 questionsContainer.style.display = "none";
@@ -30,12 +38,16 @@ answersContainer.style.display = "none";
 resultsContainer.style.display = "none";
 restartBtn.style.display = "none";
 
+// Spätere Variablen Deklarieren
+
 let i = 0;
 let de: boolean = false;
 let userName = "";
 let userScore = 0;
 
-const scoreTag = document.getElementById("scoreTag") as HTMLParagraphElement;
+const scoreTag = document.createElement("p")
+
+// Buttons um die Sprache auszuwählen und die Buttons für den Schwierigkeitsgrad anzuzeigen
 
 deButton.addEventListener("click", (event: Event) => {
   event.preventDefault();
@@ -54,7 +66,7 @@ enButton.addEventListener("click", (event: Event) => {
   startContainer.style.display = "block";
 });
 
-// - Fetch questions
+// Je nach schwierigkeitsgrad die richtigen fragen in der richtigen Sprache fetchen
 
 let hardQuestions: IQuestion[] = [];
 let easyQuestions: IQuestion[] = [];
@@ -88,6 +100,8 @@ async function fetchQuestions(difficulty: string): Promise<IQuestion[]> {
   }
 }
 
+// Container für Fragen einblenden und Fragen aufrufen
+
 function showQuestions(questions: IQuestion[]) {
   if (questions.length === 0) {
     scoreTag.textContent = "Keine Fragen verfügbar.";
@@ -98,6 +112,8 @@ function showQuestions(questions: IQuestion[]) {
   startContainer.style.display = "none";
   changeQuestion(questions[i], questions);
 }
+
+// Frage Anzeigen und ändern
 
 function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   questionElement.textContent = question.question;
@@ -112,8 +128,13 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   [answer1, answer2, answer3, answer4].forEach((answer, index) => {
     answer.onclick = () => {
       chosenIndex = index;
+      answer.style.backgroundColor = "#66eea8";
     };
   });
+
+  // Ausgeählte Frage absenden und abgleichen falls richtig gibt es einen Punkt
+  // Counter hochzählen um zur nächsten Frage zu springen so lange bis es keine mehr gibt
+
 
   sendButton.onclick = () => {
     if (chosenIndex !== undefined) {
@@ -134,6 +155,8 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   };
 }
 
+// Endergebnis einblenden, Scores im Locale Storage speichern
+
 function showResults() {
   questionElement.style.display = "none";
   answersContainer.style.display = "none";
@@ -141,7 +164,6 @@ function showResults() {
   resultsContainer.style.display = "block";
   restartBtn.style.display = "block";
   resultsContainer.innerHTML = `<h4>Your result: ${userScore}</h4>`;
-  scoreTag.textContent = "";
   const actualUser: User = {userName, userScore}
   const highScoreList = saveScoresReturnArray(actualUser);
   for (let i= 0; i < 10; i++){
@@ -151,11 +173,6 @@ function showResults() {
   }
 }
 
-type User = {
-  userName: string;
-  userScore: number;
-}
-
 function saveScoresReturnArray(user: User): User[] {
   const scores: User[] = JSON.parse(localStorage.getItem("highscores") || "[]");
   scores.push(user);
@@ -163,4 +180,3 @@ function saveScoresReturnArray(user: User): User[] {
   const sortedScores = scores.sort((a: User, b: User) => b.userScore - a.userScore);
   return sortedScores;
 }
-
