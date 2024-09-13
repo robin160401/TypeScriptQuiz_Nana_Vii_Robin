@@ -11,6 +11,7 @@ import {
   easyButton,
   enButton,
   hardButton,
+  highscore,
   inputUserName,
   language,
   questionElement,
@@ -34,7 +35,6 @@ let de: boolean = false;
 let userName = "";
 let userScore = 0;
 
-// ! neue variable zum anzeigen für error o. falsch/richtig
 const scoreTag = document.getElementById("scoreTag") as HTMLParagraphElement;
 
 // - language / difficulty buttons
@@ -63,25 +63,22 @@ let easyQuestions: IQuestion[] = [];
 
 easyButton.addEventListener("click", async (event: Event) => {
   event.preventDefault();
+  userName = inputUserName.value;
   easyQuestions = await fetchQuestions("easy");
   showQuestions(easyQuestions);
 });
 
 hardButton.addEventListener("click", async (event: Event) => {
   event.preventDefault();
+  userName = inputUserName.value;
   hardQuestions = await fetchQuestions("hard");
   showQuestions(hardQuestions);
 });
 
-// ! ich hab mich doof gesucht um die fetchFNs zu verkürzen = ternary operator!!
-// - sorry Robin, aber ich find den Code so schöner 😂
-
 async function fetchQuestions(difficulty: string): Promise<IQuestion[]> {
-  const url = de // ? de aus zeile 45
-    ? // ? wenn de = true dann -> leicht oder schwer
-      `${baseURL}${difficulty === "easy" ? "leicht.json" : "schwer.json"}`
-    : // ? wenn de = false -> easy & hard aus dem easyButton & hardButton ⬆️
-      `${baseURL}${difficulty}.json`;
+  const url = de
+    ? `${baseURL}${difficulty === "easy" ? "leicht.json" : "schwer.json"}`
+    : `${baseURL}${difficulty}.json`;
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error("Network response was not ok");
@@ -94,8 +91,6 @@ async function fetchQuestions(difficulty: string): Promise<IQuestion[]> {
 }
 
 // - Show questions
-
-// ? showQuestions() ist an eine logischere Stelle gerutscht (nach fetch)
 
 function showQuestions(questions: IQuestion[]) {
   if (questions.length === 0) {
@@ -111,7 +106,6 @@ function showQuestions(questions: IQuestion[]) {
 // - Change questions
 
 function changeQuestion(question: IQuestion, questions: IQuestion[]) {
-  // removeScore();
   questionElement.textContent = question.question;
   answer1.textContent = question.answers[0];
   answer2.textContent = question.answers[1];
@@ -119,9 +113,8 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   answer4.textContent = question.answers[3];
 
   const correctIndex = question.correct;
-  let chosenIndex: number | undefined = undefined; //? wenn der uns undefined ausspuckt, kann er auch undefined sein  - außerdem hat er so nicht mehr nach Frage 5 abgebrochen
+  let chosenIndex: number | undefined = undefined;
 
-  // ? beim googlen gefunden, angepasst, funktioniert! warum, keine ahnung
   [answer1, answer2, answer3, answer4].forEach((answer, index) => {
     answer.onclick = () => {
       chosenIndex = index;
@@ -133,7 +126,7 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
       if (chosenIndex === correctIndex) {
         userScore++;
         console.log(userScore);
-        scoreTag.textContent = "Correct!"; //? hier könnte man wieder ein if else für deutsch und englisch machen, hatte ich aber keine Lust mehr zu!
+        scoreTag.textContent = "Correct!";
       } else {
         scoreTag.textContent = "Wrong!";
       }
@@ -157,19 +150,24 @@ function showResults() {
   restartBtn.style.display = "block";
   resultsContainer.innerHTML = `<h4>Your result: ${userScore}</h4>`;
   scoreTag.textContent = "";
-  saveHighscore(userScore);
+
+  saveHighscore(userName, userScore);
 }
 
 // - Save highscore
 
-function saveHighscore(score: number) {
+function saveHighscore(userName: string, score: number) {
   const highScores = JSON.parse(localStorage.getItem("highscores") || "[]");
   highScores.push({ name: userName, score: score });
   localStorage.setItem("highscores", JSON.stringify(highScores));
-}
 
-// - Remove score
-// -brauchen wir gar nicht mehr
-// function removeScore() {
-//   resultsContainer.innerHTML = "";
-// }
+  highScores.forEach((keys: any) => {
+    let highestScore = 0;
+    if (score > highestScore) {
+      highestScore = score;
+    }
+    highscore.textContent = highestScore.toString();
+    highscore.style.display = "block";
+    console.log(highestScore);
+  });
+}
