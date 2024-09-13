@@ -20,7 +20,7 @@ import {
   sendButton,
   startContainer,
 } from "./importIDs/ids";
-
+const scoreTag = document.getElementById("scoreTag");
 type User = {
   userName: string;
   userScore: number;
@@ -44,8 +44,6 @@ let i = 0;
 let de: boolean = false;
 let userName = "";
 let userScore = 0;
-
-const scoreTag = document.createElement("p")
 
 // Buttons um die Sprache auszuwählen und die Buttons für den Schwierigkeitsgrad anzuzeigen
 
