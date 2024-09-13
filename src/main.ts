@@ -150,24 +150,32 @@ function showResults() {
   restartBtn.style.display = "block";
   resultsContainer.innerHTML = `<h4>Your result: ${userScore}</h4>`;
   scoreTag.textContent = "";
-
-  saveHighscore(userName, userScore);
+  const actualUser: User = {userName, userScore}
+  const highScore = saveScoresReturnHighScore(actualUser);
+  const newPtag = document.createElement("p");
+  newPtag.textContent = `your highscore is ${highScore}`;
+  resultsContainer.appendChild(newPtag);
+  console.log(`your highscore is ${highScore}`);
+  // highscore.textContent += " " + highScore.toString();
 }
 
 // - Save highscore
 
-function saveHighscore(userName: string, score: number) {
-  const highScores = JSON.parse(localStorage.getItem("highscores") || "[]");
-  highScores.push({ name: userName, score: score });
-  localStorage.setItem("highscores", JSON.stringify(highScores));
-
-  highScores.forEach((keys: any) => {
-    let highestScore = 0;
-    if (score > highestScore) {
-      highestScore = score;
-    }
-    highscore.textContent = highestScore.toString();
-    highscore.style.display = "block";
-    console.log(highestScore);
-  });
+type User = {
+  userName: string;
+  userScore: number;
 }
+
+function saveScoresReturnHighScore(user: User): Number {
+  const scores: User[] = JSON.parse(localStorage.getItem("highscores") || "[]");
+  scores.push(user);
+  localStorage.setItem("highscores", JSON.stringify(scores));
+  let highestScore = 0;
+  scores.forEach((user: User) => {
+    if (user.userScore > highestScore) {
+      highestScore = user.userScore;
+    }
+  });
+  return highestScore;
+}
+
