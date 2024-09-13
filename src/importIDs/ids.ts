@@ -18,8 +18,8 @@ export const hardButton = document.getElementById("hard") as HTMLButtonElement;
 export const questionsContainer = document.getElementById(
   "questions"
 ) as HTMLDivElement;
-export const answersContainer = document.getElementById(
-  "answers"
+export const answersContainer = document.querySelector(
+  ".answers"
 ) as HTMLDivElement;
 export const answer1 = document.getElementById("0") as HTMLParagraphElement;
 export const answer2 = document.getElementById("1") as HTMLParagraphElement;

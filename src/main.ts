@@ -123,19 +123,18 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   const correctIndex = question.correct;
   let chosenIndex: number | undefined = undefined;
 
-
   let answers = [answer1, answer2, answer3, answer4];
   answers.forEach((answer, index) => {
-  answer.style.backgroundColor = "#271d66";
-  answer.onclick = () => {
-    answers.forEach((answerBgReset) => {
-      answerBgReset.style.backgroundColor = "#271d66";
-    });
-    chosenIndex = index;
-    answer.style.backgroundColor = "#66eea8";
-  };
-});
-
+    answer.style.backgroundColor = "#271d66";
+    answer.onclick = () => {
+      answers.forEach((answerBgReset) => {
+        answerBgReset.style.backgroundColor = "#271d66";
+      });
+      chosenIndex = index;
+      answer.style.backgroundColor = "#66eea8";
+      answer.style.color = "#271d66";
+    };
+  });
 
   // Ausgeählte Frage absenden und abgleichen falls richtig gibt es einen Punkt
   // Counter hochzählen um zur nächsten Frage zu springen so lange bis es keine mehr gibt
@@ -172,7 +171,9 @@ function showResults() {
   const highScoreList = saveScoresReturnArray(actualUser);
   for (let i = 0; i < 10; i++) {
     const newPtag = document.createElement("p");
-    newPtag.textContent = `${i + 1}. ${highScoreList[i].userName} ${highScoreList[i].userScore} Points`;
+    newPtag.textContent = `${i + 1}. ${highScoreList[i].userName} ${
+      highScoreList[i].userScore
+    } Points`;
     resultsContainer.appendChild(newPtag);
   }
   scoreTag.style.display = "none";

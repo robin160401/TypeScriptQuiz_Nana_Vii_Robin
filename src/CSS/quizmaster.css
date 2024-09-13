@@ -5,7 +5,7 @@
 }
 
 body {
-  margin: 0em 0em 15em 10em;
+  display: flex;
   font-family: "Roboto", sans-serif;
   background-color: #090521;
   color: #66eea8;
@@ -14,7 +14,9 @@ body {
 }
 
 h1 {
-  margin-top: 4em;
+  font-size: 3.5em;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin-top: 2em;
   margin-bottom: 0.5em;
 }
 
@@ -31,7 +33,14 @@ input {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
-
+#background {
+  background-image: url(../IMG/pexels-thisisengineering-3861976.jpg);
+  width: 40vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right;
+}
 #difficulty {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -65,7 +74,7 @@ input {
   height: 40px;
   line-height: 20px;
   list-style: none;
-  margin: 0;
+  margin-top: 1em;
   outline: none;
   padding: 10px 16px;
   position: relative;
@@ -111,8 +120,9 @@ input {
 
 #answers p:hover {
   background-color: #66eea8;
-  color: #090521;
+  color: #66eea8;
   cursor: pointer;
+  font-weight: bold;
 }
 
 #send {
@@ -124,21 +134,13 @@ input {
   display: flex;
   justify-content: space-between;
   height: 100vh;
-  width: 100vw;
+  width: 50vw;
+  margin-left: 2em;
+  padding-left: 2em;
 }
 
 .contentStyle {
   flex: 1;
   padding-right: 20px;
   width: fit-content;
-}
-
-.imgStyle {
-  flex: 0.5;
-  background-image: url("./src/IMG/pexels-thisisengineering-3861976.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 100vh;
-  max-width: 50vw;
 }
