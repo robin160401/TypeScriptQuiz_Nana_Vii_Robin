@@ -5,7 +5,7 @@
 }
 
 body {
-  margin: 8em 15em 15em 15em;
+  margin: 0em 0em 15em 10em;
   font-family: "Roboto", sans-serif;
   background-color: #090521;
   color: #66eea8;
@@ -13,7 +13,40 @@ body {
   line-height: 1.5;
 }
 
-.contentSytle {
+h1 {
+  margin-top: 4em;
+  margin-bottom: 0.5em;
+}
+
+#language h2 {
+  margin-bottom: 0.5em;
+}
+
+#language button {
+  margin-bottom: 1em;
+  margin-right: 0.5em;
+}
+
+input {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#difficulty {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#start button {
+  margin-right: 0.5em;
+}
+
+#question {
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+}
+
+.contentStyle {
   align-items: center;
 }
 
@@ -66,7 +99,49 @@ body {
   }
 }
 
-img {
-  width: 50px;
-  height: 50px;
+#answers p {
+  color: white;
+  padding: 1em 1em 1em 1em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  background-color: #403a90;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+#answers p:hover {
+  background-color: #66eea8;
+  color: #090521;
+  cursor: pointer;
+}
+
+#send {
+  margin-top: 1em;
+  margin-bottom: 2em;
+}
+
+#displayFlex {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  /* padding: 0 2em; */
+}
+
+.contentStyle {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.imgStyle {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgStyle img {
+  max-width: 100%;
+  max-height: 100vh;
+  object-fit: fill;
+  padding-left: 10em;
 }
