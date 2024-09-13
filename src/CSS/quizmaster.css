@@ -124,24 +124,21 @@ input {
   display: flex;
   justify-content: space-between;
   height: 100vh;
-  /* padding: 0 2em; */
+  width: 100vw;
 }
 
 .contentStyle {
   flex: 1;
   padding-right: 20px;
+  width: fit-content;
 }
 
 .imgStyle {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.imgStyle img {
-  max-width: 100%;
-  max-height: 100vh;
-  object-fit: fill;
-  padding-left: 10em;
+  flex: 0.5;
+  background-image: url("./src/IMG/pexels-thisisengineering-3861976.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  max-width: 50vw;
 }
