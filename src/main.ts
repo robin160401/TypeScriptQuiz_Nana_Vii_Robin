@@ -126,9 +126,11 @@ function changeQuestion(question: IQuestion, questions: IQuestion[]) {
   let answers = [answer1, answer2, answer3, answer4];
   answers.forEach((answer, index) => {
     answer.style.backgroundColor = "#271d66";
+    answer.style.color = "white";
     answer.onclick = () => {
       answers.forEach((answerBgReset) => {
         answerBgReset.style.backgroundColor = "#271d66";
+        answerBgReset.style.color = "white";
       });
       chosenIndex = index;
       answer.style.backgroundColor = "#66eea8";

@@ -43,3 +43,5 @@ The goal is to create an interactive quiz on Typescript that retrieves questions
 [Victoria](https://github.com/AliceReturns) & [Nana](https://github.com/Nana7782)
 
 # Deployment
+
+<a href="https://typequizzmaster.netlify.app/">TypeScriptQuiz</a>
